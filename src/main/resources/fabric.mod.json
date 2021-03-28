@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "ffactions",
+  "version": "${version}",
+
+  "name": "FFactions",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "MIT",
+  "icon": "assets/FFactions/icon.png",
+
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "dev.sebastianb.ffactions.FFactions"
+    ]
+  },
+
+          "mixins": [
+        "FFactions.mixins.json"
+      ],
+    
+  "depends": {
+    "fabricloader": ">=0.11.3",
+              "fabric": "*",
+          "minecraft": "1.16.5"
+  }
+}
