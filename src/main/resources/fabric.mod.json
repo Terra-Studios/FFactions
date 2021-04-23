@@ -9,7 +9,7 @@
   "contact": {},
 
   "license": "MIT",
-  "icon": "assets/FFactions/icon.png",
+  "icon": "assets/ffactions/icon.png",
 
   "environment": "server",
   "entrypoints": {
@@ -18,9 +18,9 @@
     ]
   },
 
-          "mixins": [
-        "FFactions.mixins.json"
-      ],
+  "mixins": [
+    "ffactions.mixins.json"
+  ],
     
   "depends": {
     "fabricloader": ">=0.11.3",
