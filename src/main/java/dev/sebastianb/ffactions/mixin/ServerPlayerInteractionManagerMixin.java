@@ -1,5 +1,6 @@
 package dev.sebastianb.ffactions.mixin;
 
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -25,11 +26,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerInteractionManager.class)
 public class ServerPlayerInteractionManagerMixin {
 
-    // TODO: replace with custom callback
+    // TODO: replace both methods with custom callback
     // https://fabricmc.net/wiki/tutorial:events
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
     private void cancelBlockPlace(ServerPlayerEntity player, World world, ItemStack stack, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
         cir.setReturnValue(ActionResult.PASS);
+
+    }
+
+    @Inject(method = "tryBreakBlock", at = @At("HEAD"), cancellable = true)
+    private void cancelBlockBreak(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(false);
 
     }
 

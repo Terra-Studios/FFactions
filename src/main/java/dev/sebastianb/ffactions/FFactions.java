@@ -18,9 +18,13 @@ public class FFactions implements ModInitializer {
     public void onInitialize() {
         System.out.println("loaded mod factions");
 
-        PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, entity) -> {
-            return world.setBlockState(pos, state);
-        });
+//        PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, entity) -> {
+//            return world.setBlockState(pos, state);
+//        });
+//
+//        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+//            return ActionResult.PASS;
+//        });
 
     }
 }
