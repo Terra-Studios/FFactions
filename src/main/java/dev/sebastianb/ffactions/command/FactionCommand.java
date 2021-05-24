@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import dev.sebastianb.ffactions.util.SebaUtils;
+import fr.catcore.server.translations.api.text.LocalizableText;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -45,9 +46,10 @@ public class FactionCommand {
 
     private static int broadcastHelp(CommandContext<ServerCommandSource> context, int pageNum) {
         SebaUtils.saySimpleMessage(context,
-                new TranslatableText( "commands.ffactions.help_info")
+                new TranslatableText( "ffactions.command.help_title")
                         .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(16755200))));
         SebaUtils.saySimpleMessage(context, new LiteralText("The page number is " + pageNum));
+
 
         return Command.SINGLE_SUCCESS;
     }
