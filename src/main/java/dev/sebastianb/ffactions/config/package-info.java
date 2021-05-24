@@ -1,0 +1,1 @@
+package dev.sebastianb.ffactions.config;

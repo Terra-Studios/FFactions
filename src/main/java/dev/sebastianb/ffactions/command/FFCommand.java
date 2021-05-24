@@ -4,6 +4,7 @@ public class FFCommand {
 
     public static void register() {
         GetChunkCommand.register();
+        FactionCommand.register();
     }
 
 }
