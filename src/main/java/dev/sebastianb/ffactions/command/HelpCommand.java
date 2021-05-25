@@ -72,7 +72,7 @@ public class HelpCommand implements ICommand {
         for (ICommand command : commandList) {
             SebaUtils.ChatUtils.saySimpleMessage(context,
                     new TranslatableText(command.commandInfo(),
-                            new LiteralText("/" + command.commandName())
+                            new LiteralText("/f " + command.commandName())
                                 .styled(style -> style.withColor(TextColor.fromRgb(SebaUtils.Colors.LIGHT_PASTEL_PURPLE))))
                     .styled(style -> style.withHoverEvent(HoverEvent.Action.SHOW_TEXT.buildHoverEvent(new TranslatableText(command.commandTooltip())))));
         }
