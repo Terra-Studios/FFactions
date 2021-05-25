@@ -2,11 +2,10 @@ package dev.sebastianb.ffactions.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.sebastianb.ffactions.util.SebaUtils;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -35,12 +34,11 @@ public class GetChunkCommand implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode<ServerCommandSource> registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
-        return dispatcher.register(
-                CommandManager.literal(commandName())
+    public LiteralArgumentBuilder<ServerCommandSource> registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
+        return CommandManager.literal(commandName())
                 .executes(GetChunkCommand::getSinglePlayerChunk)
                 .then(CommandManager.argument("player", EntityArgumentType.player())
-                .executes(GetChunkCommand::getChunk)));
+                .executes(GetChunkCommand::getChunk));
     }
 
     private static int getChunk(CommandContext<ServerCommandSource> context) {

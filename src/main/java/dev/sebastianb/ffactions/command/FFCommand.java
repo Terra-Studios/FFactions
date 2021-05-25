@@ -1,6 +1,7 @@
 package dev.sebastianb.ffactions.command;
 
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.server.command.CommandManager;
@@ -24,12 +25,12 @@ public class FFCommand {
         for (ICommand command : commands) {
             CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {
                 for (String literal : commandLiterals) {
-                    dispatcher.register(
+                    LiteralArgumentBuilder<ServerCommandSource> builder =
                             CommandManager.literal(literal)
                                     .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
-                                    .then(command.registerNode(dispatcher))
+                                    .then(command.registerNode(dispatcher));
+                    dispatcher.register(builder);
 
-                    );
                 }
             });
         }

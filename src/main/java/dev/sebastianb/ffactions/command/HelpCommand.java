@@ -3,17 +3,15 @@ package dev.sebastianb.ffactions.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.HoverEvent;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TextColor;
 import net.minecraft.text.TranslatableText;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HelpCommand implements ICommand {
@@ -34,16 +32,15 @@ public class HelpCommand implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
-        return dispatcher.register(CommandManager.literal(commandName())
+    public LiteralArgumentBuilder<ServerCommandSource> registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
+        return CommandManager.literal(commandName())
                     .executes(HelpCommand::helpFirstPage)
                     .then(CommandManager.argument("pageNumber", IntegerArgumentType.integer())
-                    .executes(HelpCommand::help)));
+                    .executes(HelpCommand::help));
     }
 
     private static final int maxPageSize = 7;
     private static final List<List<ICommand>> listOfList = SebaUtils.splitArrayIntoParts(FFCommand.getCommands(), maxPageSize);
-
 
     // Help page with number!
     private static int help(CommandContext<ServerCommandSource> context) {
@@ -67,15 +64,11 @@ public class HelpCommand implements ICommand {
 
         pageNum = pageNum - 1; // normalize for array values
 
-
         SebaUtils.sayEmptyMessage(context);
 
         SebaUtils.saySimpleMessage(context,
                 new TranslatableText( "ffactions.command.help_title")
                         .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(16755200))));
-
-        // TODO: For loop iterating through all the translatable text on that specific page
-
 
         List<ICommand> commandList = listOfList.get(pageNum);
 
@@ -91,7 +84,6 @@ public class HelpCommand implements ICommand {
 
         SebaUtils.saySimpleMessage(context, new TranslatableText("ffactions.command.help_page", pageNum + 1, listOfList.size())
                         .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(16755200))));
-
 
         return Command.SINGLE_SUCCESS;
     }
