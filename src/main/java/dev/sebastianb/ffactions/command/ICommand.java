@@ -14,12 +14,12 @@ public interface ICommand {
     /**
      * Short summary about what the command does
      */
-    TranslatableText commandInfo();
+    String commandInfo();
 
     /**
      * Tooltip information on hover for command args
      */
-    TranslatableText commandTooltip();
+    String commandTooltip();
 
 
 

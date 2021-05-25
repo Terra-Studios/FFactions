@@ -24,13 +24,13 @@ public class GetChunkCommand implements ICommand {
     }
 
     @Override
-    public TranslatableText commandInfo() {
-        return null;
+    public String commandInfo() {
+        return "ffactions.command.info." + commandName();
     }
 
     @Override
-    public TranslatableText commandTooltip() {
-        return null;
+    public String commandTooltip() {
+        return "ffactions.command.tooltip." + commandName();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GetChunkCommand implements ICommand {
                 ServerWorld world = player.getServerWorld();
                 Chunk chunk = world.getChunk(player.getBlockPos());
                 ChunkPos chunkPos = chunk.getPos();
-                SebaUtils.saySimpleMessage(context, new LiteralText(String.format("%s's chunk position is X: %s and Z: %s", player.getName().getString(), chunkPos.x, chunkPos.z)));
+                SebaUtils.ChatUtils.saySimpleMessage(context, new LiteralText(String.format("%s's chunk position is X: %s and Z: %s", player.getName().getString(), chunkPos.x, chunkPos.z)));
                 status[0] = Command.SINGLE_SUCCESS;
             } catch (CommandSyntaxException e) {
 
@@ -69,7 +69,7 @@ public class GetChunkCommand implements ICommand {
             ServerWorld world = player.getServerWorld();
             Chunk chunk = world.getChunk(player.getBlockPos());
             ChunkPos chunkPos = chunk.getPos();
-            SebaUtils.saySimpleMessage(context, new LiteralText(String.format("Your chunk position is X: %s and Z: %s", chunkPos.x, chunkPos.z)));
+            SebaUtils.ChatUtils.saySimpleMessage(context, new LiteralText(String.format("Your chunk position is X: %s and Z: %s", chunkPos.x, chunkPos.z)));
         } catch (CommandSyntaxException commandSyntaxException) {
             commandSyntaxException.printStackTrace();
             return 0;

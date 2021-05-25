@@ -8,9 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TextColor;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.*;
 
 import java.util.List;
 
@@ -22,13 +20,13 @@ public class HelpCommand implements ICommand {
     }
 
     @Override
-    public TranslatableText commandInfo() {
-        return new TranslatableText("ffactions.command.info.help");
+    public String commandInfo() {
+        return "ffactions.command.info." + commandName();
     }
 
     @Override
-    public TranslatableText commandTooltip() {
-        return new TranslatableText("ffactions.command.tooltip.help");
+    public String commandTooltip() {
+        return "ffactions.command.tooltip." + commandName();
     }
 
     @Override
@@ -63,27 +61,30 @@ public class HelpCommand implements ICommand {
     private static int broadcastHelp(CommandContext<ServerCommandSource> context, int pageNum) {
 
         pageNum = pageNum - 1; // normalize for array values
-
-        SebaUtils.sayEmptyMessage(context);
-
-        SebaUtils.saySimpleMessage(context,
-                new TranslatableText( "ffactions.command.help_title")
-                        .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(16755200))));
-
         List<ICommand> commandList = listOfList.get(pageNum);
 
-        for (ICommand command : commandList) { // 7
-            SebaUtils.saySimpleMessage(context, new LiteralText(command.commandName()));
+        SebaUtils.ChatUtils.sayEmptyMessage(context);
+
+        SebaUtils.ChatUtils.saySimpleMessage(context,
+                new TranslatableText( "ffactions.command.help_title")
+                        .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(SebaUtils.Colors.GOLD))));
+
+        for (ICommand command : commandList) {
+            SebaUtils.ChatUtils.saySimpleMessage(context,
+                    new TranslatableText(command.commandInfo(),
+                            new LiteralText("/" + command.commandName())
+                                .styled(style -> style.withColor(TextColor.fromRgb(SebaUtils.Colors.LIGHT_PASTEL_PURPLE))))
+                    .styled(style -> style.withHoverEvent(HoverEvent.Action.SHOW_TEXT.buildHoverEvent(new TranslatableText(command.commandTooltip())))));
         }
 
+        // Empty space after commands
         int diff = maxPageSize - commandList.size();
-
         for (int x = 0; x < diff; x++) {
-            SebaUtils.sayEmptyMessage(context);
+            SebaUtils.ChatUtils.sayEmptyMessage(context);
         }
 
-        SebaUtils.saySimpleMessage(context, new TranslatableText("ffactions.command.help_page", pageNum + 1, listOfList.size())
-                        .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(16755200))));
+        SebaUtils.ChatUtils.saySimpleMessage(context, new TranslatableText("ffactions.command.help_page", pageNum + 1, listOfList.size())
+                        .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(SebaUtils.Colors.GOLD))));
 
         return Command.SINGLE_SUCCESS;
     }

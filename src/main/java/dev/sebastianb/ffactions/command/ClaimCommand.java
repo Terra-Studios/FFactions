@@ -19,13 +19,13 @@ public class ClaimCommand implements ICommand {
     }
 
     @Override
-    public TranslatableText commandInfo() {
-        return null;
+    public String commandInfo() {
+        return "ffactions.command.info." + commandName();
     }
 
     @Override
-    public TranslatableText commandTooltip() {
-        return null;
+    public String commandTooltip() {
+        return "ffactions.command.tooltip." + commandName();
     }
 
 }
