@@ -1,5 +1,6 @@
 {
 
-  "ffactions.command.help_title": "FFaction Commands"
+  "ffactions.command.help_title": "FFaction Commands",
+  "ffactions.command.help_page": "Page [%s/%s]"
 
 }

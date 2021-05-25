@@ -8,10 +8,16 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.ArrayList;
+
 public class SebaUtils {
 
     public static BlockPos VectorToBlockPos(Vec3d vec3d) {
         return new BlockPos(vec3d.getX(), vec3d.getY(), vec3d.getZ());
+    }
+
+    public static void sayEmptyMessage(CommandContext<ServerCommandSource> context) {
+        context.getSource().sendFeedback(new LiteralText(""), false);
     }
 
     public static void saySimpleMessage(CommandContext<ServerCommandSource> context, Text message) {
@@ -20,6 +26,18 @@ public class SebaUtils {
 
     public static void saySimpleMessage(CommandContext<ServerCommandSource> context, Text message, boolean broadcastToOps) {
         context.getSource().sendFeedback(message, broadcastToOps);
+    }
+
+    /**
+     * Method to split a array of any specified type into parts
+     *
+     * @param arrayList Your generic array list
+     * @param maxPageSize Max size of the array held inside a array
+     * @return The arrays split into separate arrays
+     */
+    public static ArrayList<ArrayList<?>> splitIntoArrays(ArrayList<?> arrayList, int maxPageSize) {
+
+        return null;
     }
 
 }
