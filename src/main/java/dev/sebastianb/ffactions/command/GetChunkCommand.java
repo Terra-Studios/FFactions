@@ -13,6 +13,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 
@@ -21,6 +22,16 @@ public class GetChunkCommand implements ICommand {
     @Override
     public String commandName() {
         return "getchunk";
+    }
+
+    @Override
+    public TranslatableText commandInfo() {
+        return null;
+    }
+
+    @Override
+    public TranslatableText commandTooltip() {
+        return null;
     }
 
     @Override

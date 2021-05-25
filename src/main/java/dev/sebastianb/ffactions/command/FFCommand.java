@@ -17,8 +17,9 @@ public class FFCommand {
 
     public static void register() {
 
-        commands.add(new GetChunkCommand());
         commands.add(new HelpCommand());
+        commands.add(new GetChunkCommand());
+        commands.add(new ClaimCommand());
 
         for (ICommand command : commands) {
             CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {

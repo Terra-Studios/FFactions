@@ -1,6 +1,9 @@
 {
 
   "ffactions.command.help_title": "FFaction Commands",
-  "ffactions.command.help_page": "Page [%s/%s]"
+  "ffactions.command.help_page": "Page [%s/%s]",
+
+  "ffactions.command.info.help": "Hover your mouse here for a tooltip on usage!",
+  "ffactions.command.tooltip.help": "/faction help <page_number>"
 
 }

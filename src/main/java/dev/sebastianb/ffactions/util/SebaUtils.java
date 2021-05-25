@@ -1,14 +1,15 @@
 package dev.sebastianb.ffactions.util;
 
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SebaUtils {
 
@@ -28,16 +29,23 @@ public class SebaUtils {
         context.getSource().sendFeedback(message, broadcastToOps);
     }
 
-    /**
-     * Method to split a array of any specified type into parts
-     *
-     * @param arrayList Your generic array list
-     * @param maxPageSize Max size of the array held inside a array
-     * @return The arrays split into separate arrays
-     */
-    public static ArrayList<ArrayList<?>> splitIntoArrays(ArrayList<?> arrayList, int maxPageSize) {
+//    /**
+//     * Method to split a array of any specified type into parts
+//     *
+//     * @param arrayList Your generic array list
+//     * @param maxPageSize Max size of the array held inside a array
+//     * @return The arrays split into separate arrays
+//     */
+//    public static ArrayList<ArrayList<?>> splitIntoArrays(ArrayList<?> arrayList, int maxPageSize) {
+//        ArrayList<ArrayList<?>> arrayOfArrays = new ArrayList<>();
+//
+//
+//
+//        return arrayOfArrays;
+//    }
 
-        return null;
+    public static <T>List<List<T>> splitArrayIntoParts(List<T> list, int pageSize) {
+        return Lists.partition(list, pageSize);
     }
 
 }
