@@ -9,21 +9,6 @@ import net.minecraft.server.command.ServerCommandSource;
 
 public class ClaimCommand implements ICommand {
 
-//    public void register() {
-//        CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) -> {
-//            commandDispatcher.register(
-//
-//                    CommandManager.literal("faction")
-//                            .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
-//                            .then(CommandManager.literal("help")
-//                                    .executes(HelpCommand::test)
-//                                    .then(CommandManager.argument("pageNumber", IntegerArgumentType.integer())
-//                                            .executes(HelpCommand::help)))
-//
-//            );
-//        });
-//    }
-
     @Override
     public LiteralCommandNode<ServerCommandSource> registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
         return null;

@@ -13,6 +13,7 @@ public class FFCommand {
 
     private static ArrayList<ICommand> commands = new ArrayList<>();
 
+    private static final String[] commandLiterals = new String[]{"faction", "fac", "f"};
 
     public static void register() {
 
@@ -21,17 +22,16 @@ public class FFCommand {
 
         for (ICommand command : commands) {
             CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {
+                for (String literal : commandLiterals) {
+                    dispatcher.register(
+                            CommandManager.literal(literal)
+                                    .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
+                                    .then(command.registerNode(dispatcher))
 
-                LiteralCommandNode<ServerCommandSource> factionNode = dispatcher.register(
-                        CommandManager.literal("faction")
-                                .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
-                                .then(command.registerNode(dispatcher))
-
-                );
-                dispatcher.register(CommandManager.literal("f").redirect(factionNode));
+                    );
+                }
             });
         }
-
     }
 
     protected static ArrayList<ICommand> getCommands() {
