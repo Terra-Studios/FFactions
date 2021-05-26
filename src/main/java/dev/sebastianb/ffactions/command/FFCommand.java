@@ -22,18 +22,18 @@ public class FFCommand {
         commands.add(new GetChunkCommand());
         commands.add(new ClaimCommand());
 
-        for (ICommand command : commands) {
             CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {
-                for (String literal : commandLiterals) {
-                    LiteralArgumentBuilder<ServerCommandSource> builder =
-                            CommandManager.literal(literal)
-                                    .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
-                                    .then(command.registerNode(dispatcher));
-                    dispatcher.register(builder);
-
+                for (ICommand command : commands) {
+                    for (String literal : commandLiterals) {
+                        LiteralArgumentBuilder<ServerCommandSource> builder =
+                                CommandManager.literal(literal)
+                                        .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
+                                        .then(command.registerNode(dispatcher));
+                        dispatcher.register(builder);
+                    }
                 }
             });
-        }
+
     }
 
     protected static ArrayList<ICommand> getCommands() {
