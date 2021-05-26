@@ -24,16 +24,6 @@ public class GetChunkCommand implements ICommand {
     }
 
     @Override
-    public String commandInfo() {
-        return "ffactions.command.info." + commandName();
-    }
-
-    @Override
-    public String commandTooltip() {
-        return "ffactions.command.tooltip." + commandName();
-    }
-
-    @Override
     public LiteralArgumentBuilder<ServerCommandSource> registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
         return CommandManager.literal(commandName())
                 .executes(GetChunkCommand::getSinglePlayerChunk)

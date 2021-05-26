@@ -14,13 +14,15 @@ public interface ICommand {
     /**
      * Short summary about what the command does
      */
-    String commandInfo();
+    default String commandInfo() {
+        return "ffactions.command.info." + commandName();
+    }
 
     /**
      * Tooltip information on hover for command args
      */
-    String commandTooltip();
-
-
+    default String commandTooltip() {
+        return "ffactions.command.tooltip." + commandName();
+    }
 
 }

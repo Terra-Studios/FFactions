@@ -18,14 +18,5 @@ public class ClaimCommand implements ICommand {
         return "claim";
     }
 
-    @Override
-    public String commandInfo() {
-        return "ffactions.command.info." + commandName();
-    }
-
-    @Override
-    public String commandTooltip() {
-        return "ffactions.command.tooltip." + commandName();
-    }
 
 }
