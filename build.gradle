@@ -13,12 +13,18 @@ group = project.maven_group
 repositories {
     mavenCentral()
     maven {
-        name = 'Fabric-Permission-API'
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
+        name = "Fabric-Permission-API"
+        url "https://oss.sonatype.org/content/repositories/snapshots"
     }
     maven {
+        name = "Server Translations"
         url = "https://maven.nucleoid.xyz"
     }
+    maven {
+        name = "Ladysnake Mods"
+        url = "https://ladysnake.jfrog.io/artifactory/mods"
+    }
+
 }
 
 
@@ -36,8 +42,20 @@ dependencies {
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
 
-    modImplementation 'fr.catcore:server-translations-api:1.4.0'
-    include 'fr.catcore:server-translations-api:1.4.0'
+    modImplementation "fr.catcore:server-translations-api:${project.server_translations_version}"
+    include "fr.catcore:server-translations-api:${project.server_translations_version}"
+
+    // Considering library
+
+//    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
+//    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:${project.cardinal_components_version}"
+//    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:${project.cardinal_components_version}"
+//
+//
+//    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cardinal_components_version}"
+//    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:${project.cardinal_components_version}"
+//    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:${project.cardinal_components_version}"
+
 }
 
 processResources {

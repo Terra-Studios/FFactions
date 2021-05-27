@@ -24,7 +24,7 @@ public class GetChunkCommand implements ICommand {
     }
 
     @Override
-    public LiteralArgumentBuilder<ServerCommandSource> registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
+    public LiteralArgumentBuilder<ServerCommandSource> registerNode() {
         return CommandManager.literal(commandName())
                 .executes(GetChunkCommand::getSinglePlayerChunk)
                 .then(CommandManager.argument("player", EntityArgumentType.player())
@@ -36,13 +36,13 @@ public class GetChunkCommand implements ICommand {
         context.getSource().getMinecraftServer().execute(() -> {
             try {
 
-
                 ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
-                ServerWorld world = player.getServerWorld();
-                Chunk chunk = world.getChunk(player.getBlockPos());
-                ChunkPos chunkPos = chunk.getPos();
+                ChunkPos chunkPos = SebaUtils.WorldUtils.getChunkPosFromPlayer(player);
+
                 SebaUtils.ChatUtils.saySimpleMessage(context, new LiteralText(String.format("%s's chunk position is X: %s and Z: %s", player.getName().getString(), chunkPos.x, chunkPos.z)));
+
                 status[0] = Command.SINGLE_SUCCESS;
+
             } catch (CommandSyntaxException e) {
 
                 status[0] = 0; // fail

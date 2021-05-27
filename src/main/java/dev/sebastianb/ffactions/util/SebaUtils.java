@@ -3,10 +3,14 @@ package dev.sebastianb.ffactions.util;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.chunk.Chunk;
 
 import java.util.List;
 
@@ -33,6 +37,18 @@ public class SebaUtils {
 
         public static final int LIGHT_PASTEL_PURPLE = 13353955; // # CBC3E3
         public static final int GOLD                = 16755200; // # FFAA00
+        public static final int RED                 = 16711680; // # FF0000
+        public static final int BABY_LIGHT_PURPLE   = 15459327; // # EBE3FF
+
+    }
+
+    public static class WorldUtils {
+
+        public static ChunkPos getChunkPosFromPlayer(ServerPlayerEntity player) {
+            ServerWorld world = player.getServerWorld();
+            Chunk chunk = world.getChunk(player.getBlockPos());
+            return chunk.getPos();
+        }
 
     }
 

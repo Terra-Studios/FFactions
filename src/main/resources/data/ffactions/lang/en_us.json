@@ -2,14 +2,18 @@
 
   "ffactions.command.help_title":           "FFaction Commands",
   "ffactions.command.help_page":            "Page [%s/%s]",
+  "ffactions.command.usage":                "USAGE: %s",
 
   "ffactions.command.info.help":            "%s | Hover your mouse here for a tooltip on usage!",
-  "ffactions.command.tooltip.help":         "/faction help <page_number>",
+  "ffactions.command.args.help":            "%shelp <page_number>",
 
   "ffactions.command.info.claim":           "%s | Run to claim the chunk at your position.",
-  "ffactions.command.tooltip.claim":        "/faction claim",
+  "ffactions.command.args.claim":           "%sclaim",
 
   "ffactions.command.info.getchunk":        "%s | Debug method to check chunk position.",
-  "ffactions.command.tooltip.getchunk":     "/faction getchunk <player_name>"
+  "ffactions.command.args.getchunk":        "/%sgetchunk <player_name>",
+
+  "ffactions.command.info.create":          "%s | Used to create a new faction.",
+  "ffactions.command.args.create":          "%screate <faction_name> <tag>"
 
 }

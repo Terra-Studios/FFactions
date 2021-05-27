@@ -21,6 +21,7 @@ public class FFCommand {
         commands.add(new HelpCommand());
         commands.add(new GetChunkCommand());
         commands.add(new ClaimCommand());
+        commands.add(new FactionCreate());
 
             CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {
                 for (ICommand command : commands) {
@@ -28,7 +29,7 @@ public class FFCommand {
                         LiteralArgumentBuilder<ServerCommandSource> builder =
                                 CommandManager.literal(literal)
                                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
-                                        .then(command.registerNode(dispatcher));
+                                        .then(command.registerNode());
                         dispatcher.register(builder);
                     }
                 }

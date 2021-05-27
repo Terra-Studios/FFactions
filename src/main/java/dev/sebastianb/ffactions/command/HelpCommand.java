@@ -21,7 +21,7 @@ public class HelpCommand implements ICommand {
 
 
     @Override
-    public LiteralArgumentBuilder<ServerCommandSource> registerNode(CommandDispatcher<ServerCommandSource> dispatcher) {
+    public LiteralArgumentBuilder<ServerCommandSource> registerNode() {
         return CommandManager.literal(commandName())
                     .executes(HelpCommand::helpFirstPage)
                     .then(CommandManager.argument("pageNumber", IntegerArgumentType.integer())
@@ -65,7 +65,7 @@ public class HelpCommand implements ICommand {
                     new TranslatableText(command.commandInfo(),
                             new LiteralText("/f " + command.commandName())
                                 .styled(style -> style.withColor(TextColor.fromRgb(SebaUtils.Colors.LIGHT_PASTEL_PURPLE))))
-                    .styled(style -> style.withHoverEvent(HoverEvent.Action.SHOW_TEXT.buildHoverEvent(new TranslatableText(command.commandTooltip())))));
+                    .styled(style -> style.withHoverEvent(HoverEvent.Action.SHOW_TEXT.buildHoverEvent(new TranslatableText(command.commandTooltip(), "/faction ")))));
         }
 
         // Empty space after commands
