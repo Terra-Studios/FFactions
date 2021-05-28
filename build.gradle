@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.7-SNAPSHOT'
+    id 'fabric-loom' version '0.8-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -42,8 +42,12 @@ dependencies {
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
 
+
+    // Translations for multi lang support. Comment these to get game running :trolley:
     modImplementation "fr.catcore:server-translations-api:${project.server_translations_version}"
     include "fr.catcore:server-translations-api:${project.server_translations_version}"
+
+
 
     // Considering library
 
@@ -61,13 +65,8 @@ dependencies {
 processResources {
     inputs.property "version", project.version
 
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
+    filesMatching("fabric.mod.json") {
         expand "version": project.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
     }
 }
 
@@ -104,7 +103,7 @@ publishing {
         }
     }
 
-    // select the repositories you want to publish to
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // uncomment to publish to the local maven
         // mavenLocal()
