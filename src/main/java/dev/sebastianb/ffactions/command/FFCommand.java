@@ -21,6 +21,7 @@ public class FFCommand {
         commands.add(new HelpCommand());
         commands.add(new GetChunkCommand());
         commands.add(new ClaimCommand());
+        commands.add(new UnclaimCommand());
         commands.add(new FactionCreate());
 
             CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {

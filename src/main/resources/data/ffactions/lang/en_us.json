@@ -10,6 +10,9 @@
   "ffactions.command.info.claim":           "%s | Run to claim the chunk at your position.",
   "ffactions.command.args.claim":           "%sclaim",
 
+  "ffactions.command.info.unclaim":         "%s | Run to unclaim the chunk at your position.",
+  "ffactions.command.args.unclaim":         "%sunclaim",
+
   "ffactions.command.info.getchunk":        "%s | Debug method to check chunk position.",
   "ffactions.command.args.getchunk":        "/%sgetchunk <player_name>",
 

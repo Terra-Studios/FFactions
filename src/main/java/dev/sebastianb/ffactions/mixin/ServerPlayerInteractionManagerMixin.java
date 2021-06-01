@@ -1,5 +1,9 @@
 package dev.sebastianb.ffactions.mixin;
 
+import com.mojang.brigadier.Command;
+import dev.sebastianb.ffactions.claim.ClaimUtils;
+import dev.sebastianb.ffactions.claim.FactionChunk;
+import dev.sebastianb.ffactions.util.SebaUtils;
 import net.fabricmc.fabric.api.event.network.S2CPacketTypeCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -55,13 +59,22 @@ public class ServerPlayerInteractionManagerMixin {
     @Inject(method = "tryBreakBlock", at = @At("HEAD"), cancellable = true)
     private void cancelBlockBreak(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 
-        ChunkPos blocked = new ChunkPos(new BlockPos(0,0,0));
-        ChunkPos currentChunk = new ChunkPos(pos);
 
-        if (blocked.x == currentChunk.x && blocked.z == currentChunk.z) {
-            player.sendMessage(new LiteralText("Test!"), false);
-            cir.setReturnValue(false);
+        FactionChunk currentChunk = new FactionChunk(new ChunkPos(pos));
+        for (FactionChunk facChunk : ClaimUtils.claimsList) {
+            if (facChunk.getChunkPos().x == currentChunk.getChunkPos().x
+                    && facChunk.getChunkPos().z == currentChunk.getChunkPos().z) {
+                player.sendMessage(new LiteralText("Chunk already here!!"), false);
+                cir.setReturnValue(false);
+            }
         }
+//        ChunkPos blocked = new ChunkPos(new BlockPos(0,0,0));
+//        ChunkPos currentChunk = new ChunkPos(pos);
+//
+//        if (blocked.x == currentChunk.x && blocked.z == currentChunk.z) {
+//            player.sendMessage(new LiteralText("Test!"), false);
+//            cir.setReturnValue(false);
+//        }
         // cir.setReturnValue(false);
 
     }
