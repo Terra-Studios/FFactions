@@ -1,7 +1,6 @@
 package dev.sebastianb.ffactions;
 
 import dev.sebastianb.ffactions.command.FFCommand;
-import dev.sebastianb.ffactions.command.GetChunkCommand;
 import dev.sebastianb.ffactions.database.DatabaseInitializer;
 import dev.sebastianb.ffactions.event.ServerEvents;
 import net.fabricmc.api.ModInitializer;
@@ -18,8 +17,13 @@ public class FFactions implements ModInitializer {
     public void onInitialize() {
 
         FFCommand.register();
+        // may want to start this on a new thread tbh
         ServerEvents.SERVER_STARTED.register(server -> {
-            DatabaseInitializer.createTable();
+            DatabaseInitializer.createTestTable(
+            );
+            DatabaseInitializer.testUpdate();
+
         });
+
     }
 }

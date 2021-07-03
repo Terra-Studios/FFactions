@@ -50,7 +50,9 @@ dependencies {
     include "fr.catcore:server-translations-api:${project.server_translations_version}"
 
     // databases
-    include "com.h2database:h2:${project.h2_version}"
+    include group: 'com.h2database', name: 'h2', version: '1.4.200'
+    implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+
 
 
     // Considering library
