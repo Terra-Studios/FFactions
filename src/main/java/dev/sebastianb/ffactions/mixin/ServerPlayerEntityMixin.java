@@ -23,12 +23,9 @@ import java.util.UUID;
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin {
 
-
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void attack(Entity target, CallbackInfo ci) {
         // ci.cancel();
     }
-
-
 
 }
