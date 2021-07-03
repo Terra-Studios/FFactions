@@ -14,6 +14,9 @@
   "ffactions.command.args.getchunk":        "/%sgetchunk <player_name>",
 
   "ffactions.command.info.create":          "%s | Used to create a new faction.",
-  "ffactions.command.args.create":          "%screate <faction_name> <tag>"
+  "ffactions.command.args.create":          "%screate <faction_name> <tag>",
+
+  "ffactions.logger.database.setupsuccess": "Database connection successful!",
+  "ffactions.logger.database.setupfailed":  "Error while setting up database! Unable to connect ):"
 
 }

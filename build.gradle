@@ -37,6 +37,8 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    include "net.fabricmc.fabric-api:fabric-api-base:${project.fabric_version}" \
+    // embed based api since this is the only thing I plan on using. Callbacks mmmm
 
     modImplementation 'me.lucko:fabric-permissions-api:0.1-SNAPSHOT'
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
@@ -47,6 +49,8 @@ dependencies {
     modImplementation "fr.catcore:server-translations-api:${project.server_translations_version}"
     include "fr.catcore:server-translations-api:${project.server_translations_version}"
 
+    // databases
+    include "com.h2database:h2:${project.h2_version}"
 
 
     // Considering library
