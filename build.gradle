@@ -24,6 +24,9 @@ repositories {
         name = "Ladysnake Mods"
         url = "https://ladysnake.jfrog.io/artifactory/mods"
     }
+    flatDir {
+        dirs 'lib'
+    }
 
 }
 
@@ -35,7 +38,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+//    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 
     modImplementation 'me.lucko:fabric-permissions-api:0.1-SNAPSHOT'
@@ -43,9 +46,16 @@ dependencies {
     // You may need to force-disable transitiveness on them.
 
 
-    // Translations for multi lang support. Comment these to get game running :trolley:
-    modImplementation "fr.catcore:server-translations-api:${project.server_translations_version}"
-    include "fr.catcore:server-translations-api:${project.server_translations_version}"
+    // Translations for multi lang support. Currently disabled since this version uses Fabric API.
+    // I've trolled and manually got rid of this requirement
+//    modImplementation "fr.catcore:server-translations-api:${project.server_translations_version}"
+//    include "fr.catcore:server-translations-api:${project.server_translations_version}"
+    modImplementation name: "server-translations-api-1.4.5+1.17-dev"
+    include name: "server-translations-api-1.4.5+1.17-dev"
+    modImplementation name: "server-translations-1.4.5+1.17-dev"
+    include name: "server-translations-1.4.5+1.17-dev"
+    modImplementation 'xyz.nucleoid:packet-tweaker:0.2.0-1.17-pre1'
+    include 'xyz.nucleoid:packet-tweaker:0.2.0-1.17-pre1'
 
 
 
