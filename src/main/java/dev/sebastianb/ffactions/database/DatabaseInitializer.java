@@ -33,34 +33,30 @@ public class DatabaseInitializer {
 
     // I don't know shit about MySQL so I need to learn.
     // Here's my shabby attempt at trying to create a test table and read
-    public static void createTestTable() {
+    public static int executeSQL(String sql) {
+        int i = 0;
         try {
             statement = connection.createStatement();
-            statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS Test (" +
-                            "uuid UUID PRIMARY KEY," +
-                            ");"
-            );
-            statement.executeUpdate(
-                    "INSERT INTO Test (uuid) VALUES (" + UUID.randomUUID() + ")"
-            );
+            i = statement.executeUpdate(sql);
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    public static void getSQL(String selector) {
+        try {
+            statement = connection.createStatement();
+            ResultSet set = statement.executeQuery(selector);
+            while (set.next()) {
+                System.out.println(set.getObject(1));
+                System.out.println(set.getObject(2));
+            }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    public static void testUpdate() {
-        try {
-            statement = connection.createStatement();
-            ResultSet set = statement.executeQuery("SELECT VALUES from test");
-            System.out.println(set.getArray(0));
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
 }
