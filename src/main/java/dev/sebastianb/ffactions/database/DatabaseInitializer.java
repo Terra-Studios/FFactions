@@ -50,8 +50,10 @@ public class DatabaseInitializer {
             statement = connection.createStatement();
             ResultSet set = statement.executeQuery(selector);
             while (set.next()) {
-                System.out.println(set.getObject(1));
-                System.out.println(set.getObject(2));
+                for (int i = 1; i <= set.getMetaData().getColumnCount(); i++) {
+                    System.out.println(set.getMetaData().getColumnName(i) + " " + set.getObject(i));
+
+                }
             }
             statement.close();
         } catch (SQLException e) {

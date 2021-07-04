@@ -25,15 +25,17 @@ public class FFactions implements ModInitializer {
             // create table with faction data
             DatabaseInitializer.executeSQL(
                             "CREATE TABLE IF NOT EXISTS faction (" +
-                            "fac_uuid UUID, " + // the UUID of each faction stored in binary to save space
+                            "fac_uuid UUID, " + // the UUID of each faction stored
+                            "fac_owner_uuid UUID, " + // the UUID for the faction owner
                             "created DATETIME " + // date for faction creation (YYYY-MM-DD hh:mm:ss[.fraction]) < lmao this won't work new years 10,000AD
                             ");"
             );
             // insert data into faction table
-            DatabaseInitializer.executeSQL(
-                            "INSERT INTO faction (fac_uuid, created) " +
-                            "values ('" + UUID.randomUUID() + "', '" + LocalDateTime.now() + "');" // creates a random faction UUID and inserts the time "now"
-            );
+//            UUID uuid = UUID.randomUUID();
+//            DatabaseInitializer.executeSQL(
+//                            "INSERT INTO faction (fac_uuid, fac_owner_uuid, created) " +
+//                            "values ('" + UUID.randomUUID() + "'," + uuid + " '" + LocalDateTime.now() + "');" // creates a random faction UUID and inserts the time "now"
+//            );
 
         });
 
