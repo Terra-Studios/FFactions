@@ -24,9 +24,17 @@ public class FactionCreate implements ICommand {
     public LiteralArgumentBuilder<ServerCommandSource> registerNode() {
         return CommandManager.literal(commandName())
                 .executes(context -> ICommand.argumentFeedback(context, this))
-                .then(CommandManager.argument("faction_name", StringArgumentType.word())
-                .then(CommandManager.argument("tag", StringArgumentType.word())
+                .then(CommandManager.argument("faction_name", StringArgumentType.word()) // StringArgumentType.string() is a security risk since SQL injections would be possible
+                .then(CommandManager.argument("tag", StringArgumentType.word()) // StringArgumentType.word() would be the method **YOU NEED** to use
                         .executes(FactionCreate::createFaction)));
+        /*
+
+            /f create "test', 'tag'); DROP TABLE faction; --" "we can run anything we like"
+
+            ^ this is comedy
+
+         */
+
     }
 
     private static int createFaction(CommandContext<ServerCommandSource> commandContext) {
@@ -39,11 +47,12 @@ public class FactionCreate implements ICommand {
                         new LiteralText("You already own a faction! If you'd like to delete your faction, run /f remove")); // TODO: Replace this with a translatable
                 return 0; // 0 for FAIL
             }
-            String factionName;
-            String factionTag;
+            String factionName = StringArgumentType.getString(commandContext, "faction_name");
+            String factionTag = StringArgumentType.getString(commandContext, "tag");
 
-            SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("Successfully created faction")); // TODO: Replace with translatable
-            FactionManagement.createFaction(commandContext.getSource().getPlayer());
+            SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                    new LiteralText("Successfully created faction \"" + factionName + "\" with the tag of \"" + factionTag + "\"")); // TODO: Replace with translatable
+            FactionManagement.createFaction(commandContext.getSource().getPlayer(), factionName, factionTag);
 
 
         } catch (CommandSyntaxException e) {

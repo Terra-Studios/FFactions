@@ -14,12 +14,13 @@ public class FactionManagement {
 
     private static final StorageSystem storageSystem = StorageSystem.H2; // TODO: make a actual config system
 
-    public static void createFaction(ServerPlayerEntity player) {
+    public static void createFaction(ServerPlayerEntity player, String factionName, String factionTag) {
         switch (storageSystem) {
             case H2:
                 DatabaseInitializer.executeSQL(
-                        "INSERT INTO faction (fac_uuid, fac_owner_uuid, created) " +
-                                "values ('" + UUID.randomUUID() + "', '" + player.getUuid() + "', '" + LocalDateTime.now() + "');" // creates a random faction UUID, gets Player UUID, and inserts the time "now"
+                        "INSERT INTO faction (fac_uuid, fac_owner_uuid, created, fac_name, fac_tag) " +
+                                "values ('" + UUID.randomUUID() + "', '" + player.getUuid() + "', '" + LocalDateTime.now() + "', '" + factionName + "', '" + factionTag + "');"
+                        // creates a random faction UUID, gets Player UUID, and inserts the time "now"
                 );
                 break;
             case NOSQL:
