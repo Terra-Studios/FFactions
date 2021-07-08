@@ -3,9 +3,12 @@ package dev.sebastianb.ffactions.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.sebastianb.ffactions.database.DatabaseInitializer;
+import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.LiteralText;
 
 // This class is only called in a development environment. Useful for testing specific methods
 public class DebugCommand implements ICommand {
@@ -22,9 +25,14 @@ public class DebugCommand implements ICommand {
                         .executes(DebugCommand::testSQL));
     }
 
-    // test command to
+    // test command
     private static int testSQL(CommandContext<ServerCommandSource> context) {
-        DatabaseInitializer.getSQL("select * from faction");
+        try {
+            boolean matched = DatabaseInitializer.hasMatching("select * from faction", "fac_owner_uuid", context.getSource().getPlayer().getUuid());
+            SebaUtils.ChatUtils.saySimpleMessage(context, new LiteralText(String.valueOf(matched)));
+        } catch (CommandSyntaxException e) {
+            e.printStackTrace();
+        }
         return Command.SINGLE_SUCCESS;
     }
 

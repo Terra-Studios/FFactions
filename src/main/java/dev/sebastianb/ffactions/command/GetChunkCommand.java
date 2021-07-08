@@ -33,7 +33,7 @@ public class GetChunkCommand implements ICommand {
 
     private static int getChunk(CommandContext<ServerCommandSource> context) {
         final int[] status = {0}; // 0 == fail
-        context.getSource().getMinecraftServer().execute(() -> {
+        context.getSource().getServer().execute(() -> {
             try {
 
                 ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");

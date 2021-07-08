@@ -27,7 +27,9 @@ public class FFactions implements ModInitializer {
                             "CREATE TABLE IF NOT EXISTS faction (" +
                             "fac_uuid UUID, " + // the UUID of each faction stored
                             "fac_owner_uuid UUID, " + // the UUID for the faction owner
-                            "created DATETIME " + // date for faction creation (YYYY-MM-DD hh:mm:ss[.fraction]) < lmao this won't work new years 10,000AD
+                            "created DATETIME, " + // date for faction creation (YYYY-MM-DD hh:mm:ss[.fraction]) < lmao this won't work new years 10,000AD
+                            "fac_name TINYTEXT, " +
+                            "fac_tag TINYTEXT " +
                             ");"
             );
             // insert data into faction table

@@ -32,7 +32,7 @@ public class DatabaseInitializer {
     }
 
     // I don't know shit about MySQL so I need to learn.
-    // Here's my shabby attempt at trying to create a test table and read
+    // Here's my shabby attempt at trying to SQL
     public static int executeSQL(String sql) {
         int i = 0;
         try {
@@ -45,20 +45,28 @@ public class DatabaseInitializer {
         return i;
     }
 
-    public static void getSQL(String selector) {
+    /**
+     * if the specified table has a object that matches a specific query
+     *
+     * @param selector which table to select
+     * @param query call a entry in the database
+     * @param otherObject takes in any object
+     * @return if the otherObject variable matches the specified query
+     */
+    public static <T> boolean hasMatching(String selector, String query, T otherObject) {
         try {
             statement = connection.createStatement();
             ResultSet set = statement.executeQuery(selector);
             while (set.next()) {
-                for (int i = 1; i <= set.getMetaData().getColumnCount(); i++) {
-                    System.out.println(set.getMetaData().getColumnName(i) + " " + set.getObject(i));
-
+                if (set.getObject(query).equals(otherObject)) {
+                    return true;
                 }
             }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 }
