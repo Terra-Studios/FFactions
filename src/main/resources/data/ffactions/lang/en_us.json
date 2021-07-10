@@ -16,6 +16,8 @@
   "ffactions.command.info.create":              "%s | Used to create a new faction.",
   "ffactions.command.args.create":              "%screate <faction_name> <tag>",
 
+  "ffactions.chat.tag":                         "[%s§r] ",
+
   "ffactions.logger.database.driverfailed":    "Driver for H2 database wasn't able to be loaded",
   "ffactions.logger.database.setupsuccess":     "Database connection successful!",
   "ffactions.logger.database.setupfailed":      "Error while setting up database! Unable to connect ):"

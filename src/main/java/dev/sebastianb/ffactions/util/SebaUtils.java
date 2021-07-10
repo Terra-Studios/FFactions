@@ -11,7 +11,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.chunk.Chunk;
+import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SebaUtils {
@@ -58,6 +64,19 @@ public class SebaUtils {
 
     public static <T>List<List<T>> splitArrayIntoParts(List<T> list, int pageSize) {
         return Lists.partition(list, pageSize);
+    }
+
+    // https://stackoverflow.com/questions/2169732/most-efficient-solution-for-reading-clob-to-string-and-string-to-clob-in-java
+    public static String clobToString(Clob clobObject) {
+        try {
+            InputStream in = clobObject.getAsciiStream();
+            StringWriter w = new StringWriter();
+            IOUtils.copy(in, w);
+            return w.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }

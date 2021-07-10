@@ -20,7 +20,7 @@ public class FFactions implements ModInitializer {
     public void onInitialize() {
 
         FFCommand.register();
-        // TODO: may want to start this on a new thread tbh
+        // TODO: may want to start this on a new thread tbh. Also move the callback to
         ServerEvents.SERVER_STARTED.register(server -> {
             // create table with faction data
             DatabaseInitializer.executeSQL(
@@ -32,12 +32,16 @@ public class FFactions implements ModInitializer {
                             "fac_tag TINYTEXT " +
                             ");"
             );
-            // insert data into faction table
-//            UUID uuid = UUID.randomUUID();
-//            DatabaseInitializer.executeSQL(
-//                            "INSERT INTO faction (fac_uuid, fac_owner_uuid, created) " +
-//                            "values ('" + UUID.randomUUID() + "'," + uuid + " '" + LocalDateTime.now() + "');" // creates a random faction UUID and inserts the time "now"
-//            );
+
+            // database with table of where each member should be in a faction
+            DatabaseInitializer.executeSQL(
+                            "CREATE TABLE IF NOT EXISTS faction_members (" +
+                            "fac_uuid UUID, " + // the UUID of the faction a player should belong to
+                            "player_uuid UUID, " + // the UUID of the player inside a faction
+                            "created DATETIME, " + // date for player faction join (YYYY-MM-DD hh:mm:ss[.fraction]) < lmao this won't work new years 10,000AD
+                            "rank TINYTEXT" + // the specific permissions group a member may belong to
+                            ");"
+            );
 
         });
 

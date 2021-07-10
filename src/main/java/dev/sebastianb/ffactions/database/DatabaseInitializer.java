@@ -2,8 +2,10 @@ package dev.sebastianb.ffactions.database;
 
 import dev.sebastianb.ffactions.FFactions;
 import net.minecraft.text.TranslatableText;
+import org.h2.result.Row;
 
 import java.sql.*;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class DatabaseInitializer {
@@ -67,6 +69,34 @@ public class DatabaseInitializer {
             e.printStackTrace();
         }
         return false;
+    }
+
+    // gets another object in the row from a query to the wanted query
+    public static <T> T getObject(String selector, String query, String wantedQuery, Object otherObject) {
+        try {
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet set = statement.executeQuery(selector);
+            int i = 1;
+            HashSet<Integer> rowNumber = new HashSet<>();
+            while (set.next()) {
+                if (!set.getObject(query).equals(otherObject))
+                    continue;
+                rowNumber.add(set.getRow());
+            }
+            set.absolute(0); // move cursor to row 0 to run SQL again
+            i = 1;
+            while (set.next()) {
+                if (rowNumber.contains(i)) {
+                    return (T) set.getObject(wantedQuery);
+                }
+                i++;
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        FFactions.LOGGER.info("PLEASE REPORT THIS SHOULD NOT HAPPEN!"); // TODO: Replace with translatable
+        return null;
     }
 
 }
