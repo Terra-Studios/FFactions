@@ -8,6 +8,7 @@ import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,13 +38,18 @@ public class PlayerManagerMixin {
     // method to display faction tags. Overriden vanilla method but it works. NEED to look into setting this the lowest prio so it doesn't mess with other mods
     @Inject(method = "broadcastChatMessage", at = @At("HEAD"), cancellable = true)
     private void onBroadcastChat(Text message, MessageType type, UUID sender, CallbackInfo ci) {
-        Text newText = Text.of(FactionManagement.getFactionTag(sender) + message.getString());
+        if (!type.equals(MessageType.CHAT)) {
+            return; // returns to prevent game join coloring and such from being messed with
+        }
+        String tag = new TranslatableText("ffactions.chat.tag", FactionManagement.getFactionTag(sender)).getString();
+        if (tag.equals(new TranslatableText("ffactions.chat.tag", "").getString())) {
+            tag = ""; // does this to get rid of translatable stuff at beginning if no tag
+        }
+        Text newText = Text.of(tag + message.getString());
 
+        // override of vanilla code here
         this.server.sendSystemMessage(newText, sender);
-        Iterator<ServerPlayerEntity> var4 = this.players.iterator();
-
-        while(var4.hasNext()) {
-            ServerPlayerEntity serverPlayerEntity = var4.next();
+        for (ServerPlayerEntity serverPlayerEntity : this.players) {
             serverPlayerEntity.sendMessage(newText, type, sender);
         }
         ci.cancel();

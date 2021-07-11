@@ -4,6 +4,7 @@ package dev.sebastianb.ffactions.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.sebastianb.ffactions.command.management.FactionCreate;
 import dev.sebastianb.ffactions.command.management.FactionDelete;
+import dev.sebastianb.ffactions.command.management.FactionInvite;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.CommandManager;
@@ -31,6 +32,7 @@ public class FFCommand {
         commands.add(new FactionCreate());
         commands.add(new FactionDelete());
         commands.add(new ClaimCommand());
+        commands.add(new FactionInvite());
 
         CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {
                 for (ICommand command : commands) {

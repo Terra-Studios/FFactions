@@ -74,6 +74,37 @@ public class FactionManagement {
         return false; // will return false if something wacky happened for some reason. This shouldn't happen
     }
 
+    public static boolean isInFaction(ServerPlayerEntity playerEntity) {
+        switch (storageSystem) {
+            case H2:
+                return DatabaseInitializer.hasMatching("select * from faction_members", "player_uuid", playerEntity.getUuid());
+            case NOSQL:
+                FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
+                break;
+            default:
+                FFactions.LOGGER.info("No storage system selected");
+                return false;
+        }
+        FFactions.LOGGER.info("PLEASE REPORT ME THIS SHOULD NOT HAPPEN. WHAT DID YOU DO!\n-SebaSphere");
+        return false; // will return false if something wacky happened for some reason. This shouldn't happen
+    }
+
+    /**
+     * @param inviter the person inviting to the faction
+     * @param invited the person that has been invited
+     */
+    public void invitePlayer(ServerPlayerEntity inviter, ServerPlayerEntity invited) {
+        switch (storageSystem) {
+            case H2:
+                break;
+            case NOSQL:
+                FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
+                break;
+            default:
+                FFactions.LOGGER.info("No storage system selected");
+        }
+    }
+
     /**
      *
      * @return the faction tag of a specified player
@@ -83,14 +114,34 @@ public class FactionManagement {
             case H2:
                 // check if the player is not in a faction. Will return a empty String
                 if (!DatabaseInitializer.hasMatching("select * from faction_members", "player_uuid", uuid)) {
-                    FFactions.LOGGER.info("TEST MESSAGE!");
                     break;
                 }
                 // get the faction UUID of a player THEN gets the tag from faction UUID
                 UUID factionUUID = DatabaseInitializer.getObject("select * from faction_members", "player_uuid", "fac_uuid", uuid);
-                String tag = SebaUtils.clobToString(DatabaseInitializer.getObject("select * from faction", "fac_uuid", "fac_tag", factionUUID));
+                return SebaUtils.clobToString(DatabaseInitializer.getObject("select * from faction", "fac_uuid", "fac_tag", factionUUID));
+            case NOSQL:
+                FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
+                break;
+            default:
+                FFactions.LOGGER.info("No storage system selected");
+        }
+        return "";
+    }
 
-                return new TranslatableText("ffactions.chat.tag", tag).getString();
+    /**
+     *
+     * @return the faction name of a specified player
+     */
+    public static String getFactionName(UUID uuid) {
+        switch (storageSystem) {
+            case H2:
+                // check if the player is not in a faction. Will return a empty String
+                if (!DatabaseInitializer.hasMatching("select * from faction_members", "player_uuid", uuid)) {
+                    break;
+                }
+                // get the faction UUID of a player THEN gets the faction name from faction UUID
+                UUID factionUUID = DatabaseInitializer.getObject("select * from faction_members", "player_uuid", "fac_uuid", uuid);
+                return SebaUtils.clobToString(DatabaseInitializer.getObject("select * from faction", "fac_uuid", "fac_name", factionUUID));
             case NOSQL:
                 FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
                 break;

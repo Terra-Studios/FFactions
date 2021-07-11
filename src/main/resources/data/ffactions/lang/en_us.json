@@ -11,7 +11,7 @@
   "ffactions.command.args.claim":               "%sclaim",
 
   "ffactions.command.info.getchunk":            "%s | Debug method to check chunk position.",
-  "ffactions.command.args.getchunk":            "/%sgetchunk <player_name>",
+  "ffactions.command.args.getchunk":            "%sgetchunk <player_name>",
 
   "ffactions.command.info.create":              "%s | Used to create a new faction.",
   "ffactions.command.args.create":              "%screate <faction_name> <tag>",
