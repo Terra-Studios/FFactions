@@ -1,6 +1,8 @@
 package dev.sebastianb.ffactions.command.management.status;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import dev.sebastianb.ffactions.claim.FactionManagement;
+import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 
@@ -36,13 +38,14 @@ public class FactionPlayerStatus implements Runnable {
         this.factionUUID = factionUUID;
         this.secondsAlive = new AtomicInteger(maxSecondsAlive);
         this.executor = executor;
-        invitedPlayerAndFactionUUID.put(invitedPlayerUUID, factionUUID);
+        invitedPlayerAndFactionUUID.putIfAbsent(invitedPlayerUUID, factionUUID);
     }
 
     @Override
     public synchronized void run() {
         if (!invitedPlayerAndFactionUUID.containsKey(invitedPlayer.getUuid())) {
             executor.shutdown();
+            return;
         }
         invitedPlayer.sendMessage(new LiteralText(secondsAlive.toString()), false); // TODO: replace with translatable
         if (secondsAlive.decrementAndGet() < 0) {
