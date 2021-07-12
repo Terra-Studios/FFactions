@@ -60,6 +60,19 @@ public class FactionManagement {
         }
     }
 
+    public static void removePlayerFromCurrentFaction(ServerPlayerEntity player) {
+        switch (storageSystem) {
+            case H2:
+                DatabaseInitializer.executeSQL("DELETE FROM faction_members WHERE player_uuid='" + player.getUuid() + "';");
+                break;
+            case NOSQL:
+                FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
+                break;
+            default:
+                FFactions.LOGGER.info("No storage system selected");
+        }
+    }
+
     public static boolean isFactionOwner(ServerPlayerEntity playerEntity) {
         switch (storageSystem) {
             case H2:
