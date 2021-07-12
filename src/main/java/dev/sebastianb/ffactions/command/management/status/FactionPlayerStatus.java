@@ -47,7 +47,10 @@ public class FactionPlayerStatus implements Runnable {
             executor.shutdown();
             return;
         }
-        invitedPlayer.sendMessage(new LiteralText(secondsAlive.toString()), false); // TODO: replace with translatable
+
+        // TODO: make this display 15, 10, 5, 3, 2, 1 then expire. Also make it pretty + use a translatable
+        invitedPlayer.sendMessage(new LiteralText(secondsAlive.toString()), false);
+
         if (secondsAlive.decrementAndGet() < 0) {
             invitedPlayer.sendMessage(new LiteralText("Faction invite expired"), false); // TODO: replace with translatable
             invitedPlayerAndFactionUUID.remove(invitedPlayerUUID);

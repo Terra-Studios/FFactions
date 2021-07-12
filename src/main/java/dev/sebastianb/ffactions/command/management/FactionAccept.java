@@ -13,6 +13,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 
+import java.util.UUID;
+
 // run command to accept faction invitation
 public class FactionAccept implements ICommand {
     @Override
@@ -40,10 +42,12 @@ public class FactionAccept implements ICommand {
                         new LiteralText("You have no pending invites")); // TODO: Replace with translatable
                 return 0;
             }
-            String factionName = FactionManagement.getFactionName(FactionPlayerStatus.invitedPlayerAndFactionUUID.get(player.getUuid()));
+            UUID factionUUID = FactionPlayerStatus.invitedPlayerAndFactionUUID.get(player.getUuid());
+            String factionName = FactionManagement.getFactionName(factionUUID);
             FactionPlayerStatus.invitedPlayerAndFactionUUID.remove(player.getUuid());
             SebaUtils.ChatUtils.saySimpleMessage(commandContext,
                     new LiteralText("You've now joined the " + factionName + " faction"));
+            FactionManagement.invitePlayerOrJoinFaction(factionUUID, player);
 
         } catch (CommandSyntaxException e) {
             e.printStackTrace();

@@ -33,7 +33,8 @@ public class FactionManagement {
                 // adds the correlating faction the "player" is apart of to a list in the database
                 DatabaseInitializer.executeSQL(
                         "INSERT INTO faction_members (fac_uuid, player_uuid, created, rank) " +
-                            "values('" + factionUUID + "', '" + player.getUuid() + "', '" + timeNow + "', '" + FactionMembers.OWNER + "');");
+                            "values('" + factionUUID + "', '" + player.getUuid() + "', '" + timeNow + "', '" + FactionMembers.OWNER + "');"
+                );
                 break;
             case NOSQL:
                 FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
@@ -90,12 +91,17 @@ public class FactionManagement {
     }
 
     /**
-     * @param inviter the person inviting to the faction
+     * @param faction the faction they're joining
      * @param invited the person that has been invited
      */
-    public void invitePlayer(ServerPlayerEntity inviter, ServerPlayerEntity invited) {
+    public static void invitePlayerOrJoinFaction(UUID factionUUID, ServerPlayerEntity invited) {
         switch (storageSystem) {
             case H2:
+                LocalDateTime timeNow = LocalDateTime.now();
+                DatabaseInitializer.executeSQL(
+                        "INSERT INTO faction_members (fac_uuid, player_uuid, created, rank) " +
+                                "values('" + factionUUID + "', '" + invited.getUuid() + "', '" + timeNow + "', '" + FactionMembers.DEFAULT + "');"
+                );
                 break;
             case NOSQL:
                 FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");

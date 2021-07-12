@@ -29,16 +29,17 @@ public class FactionDelete implements ICommand {
 
     private static int deleteFaction(CommandContext<ServerCommandSource> commandContext) {
         try {
-            // TODO: add check for if the player is a member of a existing faction.
-            // The player "shouldn't" be on any other faction list like this
-
+            if (FactionManagement.isInFaction(commandContext.getSource().getPlayer()) && !FactionManagement.isFactionOwner(commandContext.getSource().getPlayer())) {
+                SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("You're not the faction owner so you can't delete")); // TODO: Replace with translatable
+                return 0;
+            }
             // check if a player already owns a faction
             if (FactionManagement.isFactionOwner(commandContext.getSource().getPlayer())) {
                 FactionManagement.deleteFaction(commandContext.getSource().getPlayer());
                 SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("Faction deleted")); // TODO: Replace with translatable
                 return Command.SINGLE_SUCCESS;
             }
-            SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("Not in any faction so can't delete")); // TODO: Replace with translatable
+            SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("Not in any faction so you can't delete")); // TODO: Replace with translatable
             // ^ think of better wording
 
 
