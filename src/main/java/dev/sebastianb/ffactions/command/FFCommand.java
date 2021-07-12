@@ -2,6 +2,7 @@ package dev.sebastianb.ffactions.command;
 
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import dev.sebastianb.ffactions.command.management.FactionAccept;
 import dev.sebastianb.ffactions.command.management.FactionCreate;
 import dev.sebastianb.ffactions.command.management.FactionDelete;
 import dev.sebastianb.ffactions.command.management.FactionInvite;
@@ -33,6 +34,7 @@ public class FFCommand {
         commands.add(new FactionDelete());
         commands.add(new ClaimCommand());
         commands.add(new FactionInvite());
+        commands.add(new FactionAccept());
 
         CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {
                 for (ICommand command : commands) {

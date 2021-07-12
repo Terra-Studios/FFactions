@@ -6,12 +6,18 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.sebastianb.ffactions.claim.FactionManagement;
 import dev.sebastianb.ffactions.command.ICommand;
+import dev.sebastianb.ffactions.command.management.status.FactionPlayerStatus;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
+
+import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class FactionInvite implements ICommand {
     @Override
@@ -69,12 +75,20 @@ public class FactionInvite implements ICommand {
                     new LiteralText("You sent a invite request to " + invitedPlayer.getName().getString())
             );
 
+            // based on my implementation, it'd be really funny if someone constantly invites someone to prevent joining lmao. Maybe fix?
+            if (FactionPlayerStatus.invitedPlayerAndFactionUUID.containsKey(invitedPlayer.getUuid())) {
+                    SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                            new LiteralText(invitedPlayer.getName().getString() + " has already been invited to a faction.") // TODO: Replace with a translatable
+                    );
+                return 0;
+            }
+
             // TODO: Replace with a translatable
             invitedPlayer.sendMessage(
-                    new LiteralText(String.format("%s invited you to a faction named %s.\nTo join, run the command /f accept", invitedPlayer.getName().getString(), FactionManagement.getFactionName(inviter.getUuid()))),
+                    new LiteralText(String.format("%s invited you to a faction named %s.\nTo join, run the command /f accept", invitedPlayer.getName().getString(), FactionManagement.getFactionName(inviter))),
                     false
             );
-
+            FactionPlayerStatus.runThread(invitedPlayer, FactionManagement.getFactionUUID(inviter.getUuid()), 15);
 
         } catch (CommandSyntaxException e) {
             e.printStackTrace();

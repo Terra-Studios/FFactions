@@ -47,9 +47,9 @@ public class FactionManagement {
         switch (storageSystem) {
             case H2:
                 DatabaseInitializer.executeSQL("DELETE FROM faction WHERE fac_owner_uuid='" + playerEntity.getUuid() + "';");
-                DatabaseInitializer.executeSQL("DELETE FROM faction_members WHERE player_uuid='" + playerEntity.getUuid() + "';"); // TODO:
+                DatabaseInitializer.executeSQL("DELETE FROM faction_members WHERE player_uuid='" + playerEntity.getUuid() + "';");
+                // TODO: delete all UUIDs of the faction that match in the faction_members table
                 break;
-
             case NOSQL:
                 FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
                 break;
@@ -132,15 +132,15 @@ public class FactionManagement {
      *
      * @return the faction name of a specified player
      */
-    public static String getFactionName(UUID uuid) {
+    public static String getFactionName(ServerPlayerEntity playerEntity) {
         switch (storageSystem) {
             case H2:
                 // check if the player is not in a faction. Will return a empty String
-                if (!DatabaseInitializer.hasMatching("select * from faction_members", "player_uuid", uuid)) {
+                if (!DatabaseInitializer.hasMatching("select * from faction_members", "player_uuid", playerEntity.getUuid())) {
                     break;
                 }
                 // get the faction UUID of a player THEN gets the faction name from faction UUID
-                UUID factionUUID = DatabaseInitializer.getObject("select * from faction_members", "player_uuid", "fac_uuid", uuid);
+                UUID factionUUID = DatabaseInitializer.getObject("select * from faction_members", "player_uuid", "fac_uuid", playerEntity.getUuid());
                 return SebaUtils.clobToString(DatabaseInitializer.getObject("select * from faction", "fac_uuid", "fac_name", factionUUID));
             case NOSQL:
                 FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
@@ -149,6 +149,47 @@ public class FactionManagement {
                 FFactions.LOGGER.info("No storage system selected");
         }
         return "";
+    }
+
+    public static String getFactionName(UUID factionUUID) {
+        switch (storageSystem) {
+            case H2:
+                // check if the player is not in a faction. Will return a empty String
+                if (!DatabaseInitializer.hasMatching("select * from faction", "fac_uuid", factionUUID)) {
+                    break;
+                }
+                // get the faction UUID of a player THEN gets the faction name from faction UUID
+                return SebaUtils.clobToString(DatabaseInitializer.getObject("select * from faction", "fac_uuid", "fac_name", factionUUID));
+            case NOSQL:
+                FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
+                break;
+            default:
+                FFactions.LOGGER.info("No storage system selected");
+        }
+        return "";
+    }
+
+    /**
+     *
+     * @return the faction UUID of a specified player
+     */
+    public static UUID getFactionUUID(UUID uuid) {
+        switch (storageSystem) {
+            case H2:
+                // check if the player is not in a faction. Will return a empty String
+                if (!DatabaseInitializer.hasMatching("select * from faction_members", "player_uuid", uuid)) {
+                    break;
+                }
+                // get the faction UUID of a player
+                return DatabaseInitializer.getObject("select * from faction_members", "player_uuid", "fac_uuid", uuid);
+            case NOSQL:
+                FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
+                break;
+            default:
+                FFactions.LOGGER.info("No storage system selected");
+        }
+        FFactions.LOGGER.info("THIS SHOULD NOT HAPPEN PLEASE REPORT WITH WHAT YOU DID!");
+        return UUID.randomUUID();
     }
 
 }
