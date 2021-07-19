@@ -88,7 +88,7 @@ public class FactionInvite implements ICommand {
                     new LiteralText(String.format("%s invited you to a faction named %s.\nTo join, run the command /f accept", invitedPlayer.getName().getString(), FactionManagement.getFactionName(inviter))),
                     false
             );
-            FactionPlayerStatus.runThread(invitedPlayer, FactionManagement.getFactionUUID(inviter.getUuid()), 15);
+            FactionPlayerStatus.runThread(invitedPlayer, FactionManagement.getFactionUUID(inviter), 15);
 
         } catch (CommandSyntaxException e) {
             e.printStackTrace();

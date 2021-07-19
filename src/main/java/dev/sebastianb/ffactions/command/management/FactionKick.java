@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import dev.sebastianb.ffactions.claim.FactionManagement;
 import dev.sebastianb.ffactions.command.ICommand;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -37,26 +38,40 @@ public class FactionKick implements ICommand {
 
     private static int kick(CommandContext<ServerCommandSource> commandContext) {
         try {
-            // TODO: Do check for if player running has permission
-
-            // prevent @a operator. Really hacky way but it works
+            ServerPlayerEntity playerRanCommand = commandContext.getSource().getPlayer();
             Collection<GameProfile> profiles = GameProfileArgumentType.getProfileArgument(commandContext, "player");
-            if (profiles.size() > 1) {
-                SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("You can't select multiple people!")); // Replace with translatable
-                return 0;
-            }
             for (GameProfile profile : profiles) {
-                System.out.println(profile);
+                if (!profile.getId().equals(playerRanCommand.getUuid())) {
+                    if (!FactionManagement.isInFaction(playerRanCommand)) {
+                        SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                                new LiteralText("You need to be in a faction with permission to use this command")); // TODO: Replace with translatable
+                        return 0;
+                    }
+                    // TODO: Do check for if player running has permission to kick player
+                    if (!FactionManagement.getFactionUUID(playerRanCommand).equals(FactionManagement.getFactionUUID(profile.getId()))) {
+                        SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                                new LiteralText("You can't kick players outside your faction!")); // TODO: Replace with translatable
+                        return 0;
+                    }
+                    FactionManagement.removePlayerFromCurrentFaction(profile.getId());
+                    SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                            new LiteralText("Successfully kicked " + profile.getName() + " from the faction " + FactionManagement.getFactionName(playerRanCommand))); // TODO: Replace with translatable
+                } else {
+                    if (profiles.size() == 1) {
+                        SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                                new LiteralText("You can't kick yourself!")); // TODO: Replace with translatable
+                        return 0;
+                    }
+                }
             }
 
+            return Command.SINGLE_SUCCESS;
 
         } catch (CommandSyntaxException e) {
             e.printStackTrace();
         }
-
-        System.out.println();
-
-        return Command.SINGLE_SUCCESS;
+        return 0;
     }
+
 
 }

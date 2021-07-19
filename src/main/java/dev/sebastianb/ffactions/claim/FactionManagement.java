@@ -61,9 +61,13 @@ public class FactionManagement {
     }
 
     public static void removePlayerFromCurrentFaction(ServerPlayerEntity player) {
+        removePlayerFromCurrentFaction(player.getUuid());
+    }
+
+    public static void removePlayerFromCurrentFaction(UUID uuid) {
         switch (storageSystem) {
             case H2:
-                DatabaseInitializer.executeSQL("DELETE FROM faction_members WHERE player_uuid='" + player.getUuid() + "';");
+                DatabaseInitializer.executeSQL("DELETE FROM faction_members WHERE player_uuid='" + uuid + "';");
                 break;
             case NOSQL:
                 FFactions.LOGGER.info("I haven't made a implementation yet. What the fuck did you do to my poor mod");
@@ -104,7 +108,7 @@ public class FactionManagement {
     }
 
     /**
-     * @param faction the faction they're joining
+     * @param factionUUID the faction they're joining
      * @param invited the person that has been invited
      */
     public static void invitePlayerOrJoinFaction(UUID factionUUID, ServerPlayerEntity invited) {
@@ -188,9 +192,13 @@ public class FactionManagement {
         return "";
     }
 
+    public static UUID getFactionUUID(ServerPlayerEntity player) {
+        return getFactionUUID(player.getUuid());
+    }
+
     /**
      *
-     * @return the faction UUID of a specified player
+     * @return the faction UUID of a specified player UUID
      */
     public static UUID getFactionUUID(UUID uuid) {
         switch (storageSystem) {
