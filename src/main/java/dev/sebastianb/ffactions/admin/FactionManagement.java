@@ -1,12 +1,11 @@
-package dev.sebastianb.ffactions.claim;
+package dev.sebastianb.ffactions.admin;
 
 import dev.sebastianb.ffactions.FFactions;
 import dev.sebastianb.ffactions.database.DatabaseInitializer;
+import dev.sebastianb.ffactions.permission.FactionMemberRanks;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableText;
 
-import java.sql.Clob;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -33,7 +32,7 @@ public class FactionManagement {
                 // adds the correlating faction the "player" is apart of to a list in the database
                 DatabaseInitializer.executeSQL(
                         "INSERT INTO faction_members (fac_uuid, player_uuid, created, rank) " +
-                            "values('" + factionUUID + "', '" + player.getUuid() + "', '" + timeNow + "', '" + FactionMembers.OWNER + "');"
+                            "values('" + factionUUID + "', '" + player.getUuid() + "', '" + timeNow + "', '" + FactionMemberRanks.LEADER + "');"
                 );
                 break;
             case NOSQL:
@@ -117,7 +116,7 @@ public class FactionManagement {
                 LocalDateTime timeNow = LocalDateTime.now();
                 DatabaseInitializer.executeSQL(
                         "INSERT INTO faction_members (fac_uuid, player_uuid, created, rank) " +
-                                "values('" + factionUUID + "', '" + invited.getUuid() + "', '" + timeNow + "', '" + FactionMembers.DEFAULT + "');"
+                                "values('" + factionUUID + "', '" + invited.getUuid() + "', '" + timeNow + "', '" + FactionMemberRanks.VISITOR + "');"
                 );
                 break;
             case NOSQL:

@@ -1,12 +1,9 @@
 package dev.sebastianb.ffactions.command.management.status;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import dev.sebastianb.ffactions.claim.FactionManagement;
-import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 
-import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;

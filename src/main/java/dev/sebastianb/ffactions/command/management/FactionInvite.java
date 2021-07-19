@@ -4,7 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import dev.sebastianb.ffactions.claim.FactionManagement;
+import dev.sebastianb.ffactions.admin.FactionManagement;
 import dev.sebastianb.ffactions.command.ICommand;
 import dev.sebastianb.ffactions.command.management.status.FactionPlayerStatus;
 import dev.sebastianb.ffactions.util.SebaUtils;
@@ -13,11 +13,6 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
-
-import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class FactionInvite implements ICommand {
     @Override

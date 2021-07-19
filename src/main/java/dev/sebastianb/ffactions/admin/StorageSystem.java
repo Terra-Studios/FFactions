@@ -1,4 +1,4 @@
-package dev.sebastianb.ffactions.claim;
+package dev.sebastianb.ffactions.admin;
 
 public enum StorageSystem {
 
