@@ -16,7 +16,7 @@ public class FactionManagement {
 
     // TODO: replace all LOGGER variables with a translatable inside
 
-    private static final StorageSystem storageSystem = StorageSystem.H2; // TODO: make a actual config system
+    private static final StorageSystem storageSystem = StorageSystem.storageSystem;
 
     public static void createFaction(ServerPlayerEntity player, String factionName, String factionTag) {
         switch (storageSystem) {
