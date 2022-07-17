@@ -34,16 +34,4 @@ public class PlayerManagerMixin {
         player.setSpawnPoint(player.getSpawnPointDimension(), new BlockPos(0,100,0), 20f, true, true);
     }
 
-    // method to display faction tags. Overriden vanilla method but it works. NEED to look into setting this the lowest prio so it doesn't mess with other mods
-    @Inject(method = "broadcast(Lnet/minecraft/network/message/SignedMessage;Ljava/util/function/Function;Lnet/minecraft/network/message/MessageSender;Lnet/minecraft/util/registry/RegistryKey;)V", at = @At("HEAD"), cancellable = true)
-    private void onBroadcastChat(SignedMessage message, Function<ServerPlayerEntity, SignedMessage> playerMessageFactory, MessageSender sender, RegistryKey<MessageType> typeKey, CallbackInfo ci) {
-        if (typeKey != MessageType.CHAT) {
-            return; // returns to prevent game join coloring and such from being messed with
-        }
-        String tag = Text.translatable("ffactions.chat.tag", FactionManagement.getFactionTag(sender.uuid())).getString();
-        if (tag.equals(Text.translatable("ffactions.chat.tag", "").getString())) {
-            tag = ""; // does this to get rid of translatable stuff at beginning if no tag
-        }
-    }
-
 }

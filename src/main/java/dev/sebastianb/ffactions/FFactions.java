@@ -1,6 +1,7 @@
 package dev.sebastianb.ffactions;
 
 import dev.sebastianb.ffactions.command.FFCommand;
+import dev.sebastianb.ffactions.compact.ModCompact;
 import dev.sebastianb.ffactions.database.DatabaseInitializer;
 import dev.sebastianb.ffactions.event.ServerEvents;
 import net.fabricmc.api.ModInitializer;
@@ -19,6 +20,7 @@ public class FFactions implements ModInitializer {
     @Override
     public void onInitialize() {
 
+        ModCompact.register();
         FFCommand.register();
         // TODO: may want to start this on a new thread tbh. Also move the callback to
         ServerEvents.SERVER_STARTED.register(server -> {

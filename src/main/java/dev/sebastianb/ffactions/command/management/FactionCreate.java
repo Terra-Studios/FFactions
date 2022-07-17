@@ -51,6 +51,7 @@ public class FactionCreate implements ICommand {
                     Text.literal("You already own a faction! If you'd like to delete your faction, run /f remove")); // TODO: Replace this with a translatable
             return 0; // 0 for FAIL
         }
+        // TODO: make a limit for the size of the text
         String factionName = StringArgumentType.getString(commandContext, "faction_name");
         String factionTag = StringArgumentType.getString(commandContext, "tag");
 
