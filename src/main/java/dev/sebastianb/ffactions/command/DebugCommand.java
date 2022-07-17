@@ -8,7 +8,9 @@ import dev.sebastianb.ffactions.database.DatabaseInitializer;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
+
+
+import net.minecraft.text.Text;
 
 // This class is only called in a development environment. Useful for testing specific methods
 public class DebugCommand implements ICommand {
@@ -27,12 +29,8 @@ public class DebugCommand implements ICommand {
 
     // test command
     private static int testSQL(CommandContext<ServerCommandSource> context) {
-        try {
-            boolean matched = DatabaseInitializer.hasMatching("select * from faction", "fac_owner_uuid", context.getSource().getPlayer().getUuid());
-            SebaUtils.ChatUtils.saySimpleMessage(context, new LiteralText(String.valueOf(matched)));
-        } catch (CommandSyntaxException e) {
-            e.printStackTrace();
-        }
+        boolean matched = DatabaseInitializer.hasMatching("select * from faction", "fac_owner_uuid", context.getSource().getPlayer().getUuid());
+        SebaUtils.ChatUtils.saySimpleMessage(context, Text.literal(String.valueOf(matched)));
         return Command.SINGLE_SUCCESS;
     }
 

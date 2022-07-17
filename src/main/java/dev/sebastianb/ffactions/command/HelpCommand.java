@@ -57,15 +57,15 @@ public class HelpCommand implements ICommand {
         SebaUtils.ChatUtils.sayEmptyMessage(context);
 
         SebaUtils.ChatUtils.saySimpleMessage(context,
-                new TranslatableText( "ffactions.command.help_title")
+                Text.translatable( "ffactions.command.help_title")
                         .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(SebaUtils.Colors.GOLD))));
 
         for (ICommand command : commandList) {
             SebaUtils.ChatUtils.saySimpleMessage(context,
-                    new TranslatableText(command.commandInfo(),
-                            new LiteralText("/f " + command.commandName())
+                    Text.translatable(command.commandInfo(),
+                            Text.literal("/f " + command.commandName())
                                 .styled(style -> style.withColor(TextColor.fromRgb(SebaUtils.Colors.LIGHT_PASTEL_PURPLE))))
-                    .styled(style -> style.withHoverEvent(HoverEvent.Action.SHOW_TEXT.buildHoverEvent(new TranslatableText(command.commandTooltip(), "/faction ")))));
+                    .styled(style -> style.withHoverEvent(HoverEvent.Action.SHOW_TEXT.buildHoverEvent(Text.translatable(command.commandTooltip(), "/faction ")))));
         }
 
         // Empty space after commands
@@ -74,7 +74,7 @@ public class HelpCommand implements ICommand {
             SebaUtils.ChatUtils.sayEmptyMessage(context);
         }
 
-        SebaUtils.ChatUtils.saySimpleMessage(context, new TranslatableText("ffactions.command.help_page", pageNum + 1, listOfList.size())
+        SebaUtils.ChatUtils.saySimpleMessage(context, Text.translatable("ffactions.command.help_page", pageNum + 1, listOfList.size())
                         .styled(style -> style.withBold(true).withColor(TextColor.fromRgb(SebaUtils.Colors.GOLD))));
 
         return Command.SINGLE_SUCCESS;

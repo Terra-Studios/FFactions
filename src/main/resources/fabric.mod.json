@@ -21,10 +21,10 @@
   "mixins": [
     "ffactions.mixins.json"
   ],
-    
+
   "depends": {
-    "fabricloader": ">=0.11.3",
-              "fabric": "*",
-          "minecraft": "1.17.1"
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": "1.19"
   }
 }

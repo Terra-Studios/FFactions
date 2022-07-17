@@ -1,13 +1,15 @@
 package dev.sebastianb.ffactions.mixin;
 
 import dev.sebastianb.ffactions.admin.FactionManagement;
-import net.minecraft.network.MessageType;
+import net.minecraft.network.message.MessageSender;
+import net.minecraft.network.message.MessageType;
+import net.minecraft.network.message.SignedMessage;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryKey;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,8 +18,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
+import java.util.function.Function;
 
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
@@ -32,23 +35,15 @@ public class PlayerManagerMixin {
     }
 
     // method to display faction tags. Overriden vanilla method but it works. NEED to look into setting this the lowest prio so it doesn't mess with other mods
-    @Inject(method = "broadcastChatMessage", at = @At("HEAD"), cancellable = true)
-    private void onBroadcastChat(Text message, MessageType type, UUID sender, CallbackInfo ci) {
-        if (!type.equals(MessageType.CHAT)) {
+    @Inject(method = "broadcast(Lnet/minecraft/network/message/SignedMessage;Ljava/util/function/Function;Lnet/minecraft/network/message/MessageSender;Lnet/minecraft/util/registry/RegistryKey;)V", at = @At("HEAD"), cancellable = true)
+    private void onBroadcastChat(SignedMessage message, Function<ServerPlayerEntity, SignedMessage> playerMessageFactory, MessageSender sender, RegistryKey<MessageType> typeKey, CallbackInfo ci) {
+        if (typeKey != MessageType.CHAT) {
             return; // returns to prevent game join coloring and such from being messed with
         }
-        String tag = new TranslatableText("ffactions.chat.tag", FactionManagement.getFactionTag(sender)).getString();
-        if (tag.equals(new TranslatableText("ffactions.chat.tag", "").getString())) {
+        String tag = Text.translatable("ffactions.chat.tag", FactionManagement.getFactionTag(sender.uuid())).getString();
+        if (tag.equals(Text.translatable("ffactions.chat.tag", "").getString())) {
             tag = ""; // does this to get rid of translatable stuff at beginning if no tag
         }
-        Text newText = Text.of(tag + message.getString());
-
-        // override of vanilla code here
-        this.server.sendSystemMessage(newText, sender);
-        for (ServerPlayerEntity serverPlayerEntity : this.players) {
-            serverPlayerEntity.sendMessage(newText, type, sender);
-        }
-        ci.cancel();
     }
 
 }

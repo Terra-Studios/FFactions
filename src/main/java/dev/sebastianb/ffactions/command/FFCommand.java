@@ -3,7 +3,7 @@ package dev.sebastianb.ffactions.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.sebastianb.ffactions.command.management.*;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
@@ -36,7 +36,7 @@ public class FFCommand {
         commands.add(new FactionAccept());
         commands.add(new FactionLeave());
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, b) -> {
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
                 for (ICommand command : commands) {
                     for (String literal : commandLiterals) {
                         LiteralArgumentBuilder<ServerCommandSource> builder =

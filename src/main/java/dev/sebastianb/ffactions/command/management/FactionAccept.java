@@ -11,7 +11,7 @@ import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.util.UUID;
 
@@ -29,29 +29,25 @@ public class FactionAccept implements ICommand {
     }
 
     private static int inviteAccept(CommandContext<ServerCommandSource> commandContext) {
-        try {
-            ServerPlayerEntity player = commandContext.getSource().getPlayer();
-            if (FactionManagement.isInFaction(player)) {
-                SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                        new LiteralText("You're currently in a faction")); // TODO: Replace with translatable
-
-                return 0;
-            }
-            if (!FactionPlayerStatus.invitedPlayerAndFactionUUID.containsKey(player.getUuid())) {
-                SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                        new LiteralText("You have no pending invites")); // TODO: Replace with translatable
-                return 0;
-            }
-            UUID factionUUID = FactionPlayerStatus.invitedPlayerAndFactionUUID.get(player.getUuid());
-            String factionName = FactionManagement.getFactionName(factionUUID);
-            FactionPlayerStatus.invitedPlayerAndFactionUUID.remove(player.getUuid());
+        ServerPlayerEntity player = commandContext.getSource().getPlayer();
+        if (FactionManagement.isInFaction(player)) {
             SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                    new LiteralText("You've now joined the " + factionName + " faction"));
-            FactionManagement.invitePlayerOrJoinFaction(factionUUID, player);
+                    Text.literal("You're currently in a faction")); // TODO: Replace with translatable
 
-        } catch (CommandSyntaxException e) {
-            e.printStackTrace();
+            return 0;
         }
+        if (!FactionPlayerStatus.invitedPlayerAndFactionUUID.containsKey(player.getUuid())) {
+            SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                    Text.literal("You have no pending invites")); // TODO: Replace with translatable
+            return 0;
+        }
+        UUID factionUUID = FactionPlayerStatus.invitedPlayerAndFactionUUID.get(player.getUuid());
+        String factionName = FactionManagement.getFactionName(factionUUID);
+        FactionPlayerStatus.invitedPlayerAndFactionUUID.remove(player.getUuid());
+        SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                Text.literal("You've now joined the " + factionName + " faction"));
+        FactionManagement.invitePlayerOrJoinFaction(factionUUID, player);
+
         return Command.SINGLE_SUCCESS;
     }
 

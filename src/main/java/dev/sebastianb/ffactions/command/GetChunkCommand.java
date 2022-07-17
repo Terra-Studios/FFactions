@@ -11,8 +11,7 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 
@@ -39,7 +38,7 @@ public class GetChunkCommand implements ICommand {
                 ServerPlayerEntity player = EntityArgumentType.getPlayer(context, "player");
                 ChunkPos chunkPos = SebaUtils.WorldUtils.getChunkPosFromPlayer(player);
 
-                SebaUtils.ChatUtils.saySimpleMessage(context, new LiteralText(String.format("%s's chunk position is X: %s and Z: %s", player.getName().getString(), chunkPos.x, chunkPos.z)));
+                SebaUtils.ChatUtils.saySimpleMessage(context, Text.literal(String.format("%s's chunk position is X: %s and Z: %s", player.getName().getString(), chunkPos.x, chunkPos.z)));
 
                 status[0] = Command.SINGLE_SUCCESS;
 
@@ -54,16 +53,11 @@ public class GetChunkCommand implements ICommand {
 
     private static int getSinglePlayerChunk(CommandContext<ServerCommandSource> context) {
         // pretty sure this should run if no player in arguments
-        try {
-            ServerPlayerEntity player = context.getSource().getPlayer();
-            ServerWorld world = player.getServerWorld();
-            Chunk chunk = world.getChunk(player.getBlockPos());
-            ChunkPos chunkPos = chunk.getPos();
-            SebaUtils.ChatUtils.saySimpleMessage(context, new LiteralText(String.format("Your chunk position is X: %s and Z: %s", chunkPos.x, chunkPos.z)));
-        } catch (CommandSyntaxException commandSyntaxException) {
-            commandSyntaxException.printStackTrace();
-            return 0;
-        }
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        ServerWorld world = player.getWorld();
+        Chunk chunk = world.getChunk(player.getBlockPos());
+        ChunkPos chunkPos = chunk.getPos();
+        SebaUtils.ChatUtils.saySimpleMessage(context, Text.literal(String.format("Your chunk position is X: %s and Z: %s", chunkPos.x, chunkPos.z)));
         return Command.SINGLE_SUCCESS;
 
     }

@@ -9,7 +9,7 @@ import dev.sebastianb.ffactions.command.ICommand;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class FactionDelete implements ICommand {
     @Override
@@ -27,24 +27,17 @@ public class FactionDelete implements ICommand {
     }
 
     private static int deleteFaction(CommandContext<ServerCommandSource> commandContext) {
-        try {
-            if (FactionManagement.isInFaction(commandContext.getSource().getPlayer()) && !FactionManagement.isFactionOwner(commandContext.getSource().getPlayer())) {
-                SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("You're not the faction owner so you can't delete")); // TODO: Replace with translatable
-                return 0;
-            }
-            // check if a player already owns a faction
-            if (FactionManagement.isFactionOwner(commandContext.getSource().getPlayer())) {
-                FactionManagement.deleteFaction(commandContext.getSource().getPlayer());
-                SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("Faction deleted")); // TODO: Replace with translatable
-                return Command.SINGLE_SUCCESS;
-            }
-            SebaUtils.ChatUtils.saySimpleMessage(commandContext, new LiteralText("Not in any faction so you can't delete")); // TODO: Replace with translatable
-            // ^ think of better wording
-
-
-        } catch (CommandSyntaxException e) {
-            e.printStackTrace();
+        if (FactionManagement.isInFaction(commandContext.getSource().getPlayer()) && !FactionManagement.isFactionOwner(commandContext.getSource().getPlayer())) {
+            SebaUtils.ChatUtils.saySimpleMessage(commandContext, Text.literal("You cannot delete since you are not the faction owner.")); // TODO: Replace with translatable
+            return 0;
         }
+        // check if a player already owns a faction
+        if (FactionManagement.isFactionOwner(commandContext.getSource().getPlayer())) {
+            FactionManagement.deleteFaction(commandContext.getSource().getPlayer());
+            SebaUtils.ChatUtils.saySimpleMessage(commandContext, Text.literal("Faction deleted")); // TODO: Replace with translatable
+            return Command.SINGLE_SUCCESS;
+        }
+        SebaUtils.ChatUtils.saySimpleMessage(commandContext, Text.literal("You cannot delete since you are not a member of any faction")); // TODO: Replace with translatable
         return Command.SINGLE_SUCCESS;
     }
 

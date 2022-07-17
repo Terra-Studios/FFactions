@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -45,7 +45,7 @@ public class ServerPlayerInteractionManagerMixin {
         ChunkPos currentChunk = new ChunkPos(pos);
 
         if (blocked.x == currentChunk.x && blocked.z == currentChunk.z) {
-            player.sendMessage(new LiteralText("Test!"), false);
+            player.sendMessage(Text.translatable("Test!"), false);
             cir.setReturnValue(false);
         }
         // cir.setReturnValue(false);

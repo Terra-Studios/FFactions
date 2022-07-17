@@ -12,7 +12,7 @@ import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class FactionInvite implements ICommand {
     @Override
@@ -36,7 +36,7 @@ public class FactionInvite implements ICommand {
             if (inviter.getUuid().equals(invitedPlayer.getUuid())) {
                 // TODO: Replace with a translatable
                 SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                        new LiteralText("Silly bean you can't invite yourself.")
+                        Text.literal("Silly bean you can't invite yourself.")
                 );
                 return 0;
             }
@@ -44,7 +44,7 @@ public class FactionInvite implements ICommand {
             if (!FactionManagement.isInFaction(inviter)) {
                 // TODO: Replace with a translatable
                 SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                        new LiteralText("Unable to invite " + invitedPlayer.getName().getString() + " as you're not in a faction.")
+                        Text.literal("Unable to invite " + invitedPlayer.getName().getString() + " as you're not in a faction.")
                 );
                 return 0;
             }
@@ -52,7 +52,7 @@ public class FactionInvite implements ICommand {
             if (FactionManagement.isInFaction(invitedPlayer)) {
                 // TODO: Replace with a translatable
                 SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                        new LiteralText("Unable to invite " + invitedPlayer.getName().getString() + " as they're already in a faction.")
+                        Text.literal("Unable to invite " + invitedPlayer.getName().getString() + " as they're already in a faction.")
                 );
                 return 0;
             }
@@ -61,26 +61,26 @@ public class FactionInvite implements ICommand {
             if (!FactionManagement.isFactionOwner(inviter)) {
                 // TODO: Replace with a translatable
                 SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                        new LiteralText("Unable to invite " + invitedPlayer.getName().getString() + " as you don't have permission to invite.")
+                        Text.literal("Unable to invite " + invitedPlayer.getName().getString() + " as you don't have permission to invite.")
                 );
                 return 0;
             }
             // TODO: Replace with a translatable
             SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                    new LiteralText("You sent a invite request to " + invitedPlayer.getName().getString())
+                    Text.literal("You sent a invite request to " + invitedPlayer.getName().getString())
             );
 
             // based on my implementation, it'd be really funny if someone constantly invites someone to prevent joining lmao. Maybe fix?
             if (FactionPlayerStatus.invitedPlayerAndFactionUUID.containsKey(invitedPlayer.getUuid())) {
                     SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                            new LiteralText(invitedPlayer.getName().getString() + " has already been invited to a faction.") // TODO: Replace with a translatable
+                            Text.literal(invitedPlayer.getName().getString() + " has already been invited to a faction.") // TODO: Replace with a translatable
                     );
                 return 0;
             }
 
             // TODO: Replace with a translatable
             invitedPlayer.sendMessage(
-                    new LiteralText(String.format("%s invited you to a faction named %s.\nTo join, run the command /f accept", invitedPlayer.getName().getString(), FactionManagement.getFactionName(inviter))),
+                    Text.literal(String.format("%s invited you to a faction named %s.\nTo join, run the command /f accept", invitedPlayer.getName().getString(), FactionManagement.getFactionName(inviter))),
                     false
             );
             FactionPlayerStatus.runThread(invitedPlayer, FactionManagement.getFactionUUID(inviter), 15);

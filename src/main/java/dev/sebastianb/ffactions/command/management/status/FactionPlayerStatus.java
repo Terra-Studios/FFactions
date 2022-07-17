@@ -2,7 +2,7 @@ package dev.sebastianb.ffactions.command.management.status;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.util.UUID;
 import java.util.concurrent.*;
@@ -46,10 +46,10 @@ public class FactionPlayerStatus implements Runnable {
         }
 
         // TODO: make this display 15, 10, 5, 3, 2, 1 then expire. Also make it pretty + use a translatable
-        invitedPlayer.sendMessage(new LiteralText(secondsAlive.toString()), false);
+        invitedPlayer.sendMessage(Text.literal(secondsAlive.toString()), false);
 
         if (secondsAlive.decrementAndGet() < 0) {
-            invitedPlayer.sendMessage(new LiteralText("Faction invite expired"), false); // TODO: replace with translatable
+            invitedPlayer.sendMessage(Text.literal("Faction invite expired"), false); // TODO: replace with translatable
             invitedPlayerAndFactionUUID.remove(invitedPlayerUUID);
             executor.shutdown();
         }

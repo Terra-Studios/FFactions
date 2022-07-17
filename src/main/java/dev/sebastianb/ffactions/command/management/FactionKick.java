@@ -12,7 +12,7 @@ import net.minecraft.command.argument.GameProfileArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.util.Collection;
 
@@ -38,22 +38,22 @@ public class FactionKick implements ICommand {
                 if (!profile.getId().equals(playerRanCommand.getUuid())) {
                     if (!FactionManagement.isInFaction(playerRanCommand)) {
                         SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                                new LiteralText("You need to be in a faction with permission to use this command")); // TODO: Replace with translatable
+                                Text.literal("You need to be in a faction with permission to use this command")); // TODO: Replace with translatable
                         return 0;
                     }
                     // TODO: Do check for if player running has permission to kick player
                     if (!FactionManagement.getFactionUUID(playerRanCommand).equals(FactionManagement.getFactionUUID(profile.getId()))) {
                         SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                                new LiteralText("You can't kick players outside your faction!")); // TODO: Replace with translatable
+                                Text.literal("You can't kick players outside your faction!")); // TODO: Replace with translatable
                         return 0;
                     }
                     FactionManagement.removePlayerFromCurrentFaction(profile.getId());
                     SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                            new LiteralText("Successfully kicked " + profile.getName() + " from the faction " + FactionManagement.getFactionName(playerRanCommand))); // TODO: Replace with translatable
+                            Text.literal("Successfully kicked " + profile.getName() + " from the faction " + FactionManagement.getFactionName(playerRanCommand))); // TODO: Replace with translatable
                 } else {
                     if (profiles.size() == 1) {
                         SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                                new LiteralText("You can't kick yourself!")); // TODO: Replace with translatable
+                                Text.literal("You can't kick yourself!")); // TODO: Replace with translatable
                         return 0;
                     }
                 }

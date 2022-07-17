@@ -1,12 +1,10 @@
 package dev.sebastianb.ffactions.database;
 
 import dev.sebastianb.ffactions.FFactions;
-import net.minecraft.text.TranslatableText;
-import org.h2.result.Row;
+import net.minecraft.text.Text;
 
 import java.sql.*;
 import java.util.HashSet;
-import java.util.UUID;
 
 public class DatabaseInitializer {
 
@@ -19,16 +17,16 @@ public class DatabaseInitializer {
             Class<?> aClass = Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            FFactions.LOGGER.warning(new TranslatableText("ffactions.logger.database.driverfailed").getString());
+            FFactions.LOGGER.warning(Text.translatable("ffactions.logger.database.driverfailed").getString());
         }
 
         // setup database for connections
         try {
             connection = DriverManager.getConnection("jdbc:h2:./ffactions/ffactions");
-            FFactions.LOGGER.info(new TranslatableText("ffactions.logger.database.setupsuccess").getString());
+            FFactions.LOGGER.info(Text.translatable("ffactions.logger.database.setupsuccess").getString());
         } catch (SQLException e) {
             e.printStackTrace();
-            FFactions.LOGGER.warning(new TranslatableText("ffactions.logger.database.setupfailed").getString());
+            FFactions.LOGGER.warning(Text.translatable("ffactions.logger.database.setupfailed").getString());
         }
 
     }

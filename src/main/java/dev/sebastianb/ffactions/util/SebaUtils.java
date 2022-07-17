@@ -5,7 +5,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -25,7 +24,7 @@ public class SebaUtils {
     public static class ChatUtils {
 
         public static void sayEmptyMessage(CommandContext<ServerCommandSource> context) {
-            context.getSource().sendFeedback(new LiteralText(""), false);
+            context.getSource().sendFeedback(Text.literal(""), false);
         }
 
         public static void saySimpleMessage(CommandContext<ServerCommandSource> context, Text message) {
@@ -51,7 +50,7 @@ public class SebaUtils {
     public static class WorldUtils {
 
         public static ChunkPos getChunkPosFromPlayer(ServerPlayerEntity player) {
-            ServerWorld world = player.getServerWorld();
+            ServerWorld world = player.getWorld();
             Chunk chunk = world.getChunk(player.getBlockPos());
             return chunk.getPos();
         }

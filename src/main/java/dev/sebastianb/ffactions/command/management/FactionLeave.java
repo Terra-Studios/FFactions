@@ -10,7 +10,7 @@ import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 // command to leave the faction you're in
 public class FactionLeave implements ICommand {
@@ -27,20 +27,17 @@ public class FactionLeave implements ICommand {
 
     // TODO: Replace all literals with translatable
     private static int leave(CommandContext<ServerCommandSource> commandContext) {
-        try {
-            ServerPlayerEntity player = commandContext.getSource().getPlayer();
-            if (FactionManagement.isFactionOwner(player)) {
-                SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                        new LiteralText("You can't leave a faction that you own \nTo delete your faction, run /f remove"));
-                return 0;
-            }
-            String factionName = FactionManagement.getFactionName(player);
-            FactionManagement.removePlayerFromCurrentFaction(player);
+        ServerPlayerEntity player = commandContext.getSource().getPlayer();
+        if (FactionManagement.isFactionOwner(player)) {
             SebaUtils.ChatUtils.saySimpleMessage(commandContext,
-                    new LiteralText("You've successfully left the faction named " + factionName));
-        } catch (CommandSyntaxException e) {
-            e.printStackTrace();
+                    Text.literal("You can't leave a faction that you own \nTo delete your faction, run /f remove"));
+            return 0;
         }
+        String factionName = FactionManagement.getFactionName(player);
+        FactionManagement.removePlayerFromCurrentFaction(player);
+        SebaUtils.ChatUtils.saySimpleMessage(commandContext,
+                Text.literal("You've successfully left the faction named " + factionName));
+
         return Command.SINGLE_SUCCESS;
     }
 

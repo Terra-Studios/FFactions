@@ -7,10 +7,8 @@ import com.mojang.brigadier.context.CommandContext;
 import dev.sebastianb.ffactions.util.SebaUtils;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
 
 public interface ICommand {
 
@@ -45,8 +43,8 @@ public interface ICommand {
     static int argumentFeedback(CommandContext<ServerCommandSource> context, ICommand command) {
 
         SebaUtils.ChatUtils.saySimpleMessage(context,
-                new TranslatableText("ffactions.command.usage",
-                        new LiteralText(new TranslatableText(command.commandArgs(), "/f ").getString())
+                Text.translatable("ffactions.command.usage",
+                        Text.literal(Text.translatable(command.commandArgs(), "/f ").getString())
                                 .styled(style -> style.withColor(TextColor.fromRgb(SebaUtils.Colors.BABY_LIGHT_PURPLE))))
                         .styled(style -> style.withColor(TextColor.fromRgb(SebaUtils.Colors.RED))
         ));
